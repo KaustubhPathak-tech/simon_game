@@ -1,3 +1,6 @@
+window.alert("This game can be played only on desktop/laptop !")
+
+
 var buttoncolors = ["red", "blue", "green", "yellow"];
 var gamepattern = [];
 var userclickedpattern = [];
