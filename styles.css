@@ -1,7 +1,17 @@
+html{
+  scroll-behavior: smooth;
+}
 body {
   text-align: center;
   background-color: #011F3F;
   margin: 0 0;
+}
+.skip{
+  color: aliceblue;
+  font-family: 'Press Start 2P', cursive;
+  position: relative;
+  font-size: 15px;
+  margin:auto;
 }
 .heading{
   background-color: #03001C;
