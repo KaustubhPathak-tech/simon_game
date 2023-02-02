@@ -1,5 +1,4 @@
-window.alert("This game can be played only on desktop/laptop !")
-
+window.alert("This game can be played only on desktop/laptop !");
 
 var buttoncolors = ["red", "blue", "green", "yellow"];
 var gamepattern = [];
@@ -10,25 +9,24 @@ var level = 0;
 
 $(document).keypress(function () {
   if (!started) {
-    nextSequence();
     $("#level-title").text("Level " + level);
+    nextSequence();
     started = true;
   }
 });
 
 $(".btn").click(function () {
-  var userchoosencolor = this.id;
+  var userchoosencolor = $(this).attr("id");
   userclickedpattern.push(userchoosencolor);
   buttonAnimation(userchoosencolor);
   playSound(userchoosencolor);
-  if(gamepattern.length===userclickedpattern.length){checkanswer(level);}
-  
+  checkanswer(userclickedpattern.length - 1);
 });
 
 function nextSequence() {
+  userclickedpattern = [];
   level++;
   $("#level-title").text("Level " + level);
-
   var randomnumber = Math.floor(Math.random() * 4);
   var randomchosencolor = buttoncolors[randomnumber];
   gamepattern.push(randomchosencolor);
@@ -40,49 +38,29 @@ function nextSequence() {
   playSound(randomchosencolor);
 }
 
-
-
-
-
 function checkanswer(currentlevel) {
-  var trueevent=0;
-  for(var i=0;i<currentlevel;i++){
-    if(gamepattern[i]===userclickedpattern[i]){
-        trueevent++;
-    }
-  }
-  
-  
-  if (trueevent===currentlevel) {
-    console.log("success");
+  if (gamepattern[currentlevel] === userclickedpattern[currentlevel]) {
     if (gamepattern.length === userclickedpattern.length) {
       setTimeout(function () {
         nextSequence();
-        userclickedpattern = [];
       }, 1000);
     }
   } else {
-    
-      console.log("wrong");
-      playSound("wrong");
-      $("body").addClass("game-over");
-      setTimeout(function () {
-        $("body").removeClass("game-over");
-      }, 200);
-      $("#level-title").text("Game Over, Press Any Key to Restart");
-      startover();
-    
+    playSound("wrong");
+    $("body").addClass("game-over");
+    $("#level-title").text("Game Over, Press Any Key to Restart");
+    setTimeout(function () {
+      $("body").removeClass("game-over");
+    }, 200);
+    startover();
   }
 }
 
 function startover() {
   level = 0;
-  started = false;
   gamepattern = [];
-  userclickedpattern=[];
+  started = false;
 }
-
-
 
 function buttonAnimation(key) {
   $("#" + key).addClass("pressed");
@@ -92,6 +70,6 @@ function buttonAnimation(key) {
 }
 
 function playSound(name) {
-  var audio = new Audio(name + ".mp3");
+  var audio = new Audio("sounds/" + name + ".mp3");
   audio.play();
 }
